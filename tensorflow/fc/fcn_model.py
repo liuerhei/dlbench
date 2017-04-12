@@ -1,5 +1,6 @@
 import tensorflow as tf
 
+features_dim = 32 * 32 * 8
 image_dim = 28 * 28
 label_dim = 10
 
@@ -31,6 +32,20 @@ def model_fcn5(images):
         FinalLayerB = get_variable("B5", [label_dim], is_bias=True)
         #FinalLayer = tf.nn.softmax(tf.nn.xw_plus_b(HL2, FinalLayerW, FinalLayerB))
         FinalLayer = tf.nn.xw_plus_b(HL2, FinalLayerW, FinalLayerB)
+        return FinalLayer
+
+def model_fcn8(features):
+        HL_dim = 2048
+        HL0 = sigmoid_layer(0, features, features_dim, HL_dim)
+        HL1 = sigmoid_layer(1, HL0, HL_dim, HL_dim)
+        HL2 = sigmoid_layer(2, HL1, HL_dim, HL_dim)
+        HL3 = sigmoid_layer(3, HL2, HL_dim, HL_dim)
+        HL4 = sigmoid_layer(4, HL3, HL_dim, HL_dim)
+        HL5 = sigmoid_layer(5, HL4, HL_dim, HL_dim)
+
+        FinalLayerW = get_variable("W8", [HL_dim, 10])
+        FinalLayerB = get_variable("B8", 10)
+        FinalLayer = tf.nn.xw_plus_b(HL5, FinalLayerW, FinalLayerB)
         return FinalLayer
 
 def loss(logits, labels):
