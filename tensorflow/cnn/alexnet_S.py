@@ -165,7 +165,7 @@ def run_benchmark():
 
     if run_forword:
       # Run the forword benchmark.
-      print("I am here")
+      # print("I am here")
       time_tensorflow_run(sess, last_layer, "Forward")
 
     if run_forword_backword:
